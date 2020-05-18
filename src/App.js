@@ -1,12 +1,10 @@
-import React from "react";
-import { CssBaseline } from "@material-ui/core";
-import UserList from "./views/userlist";
+import React from 'react';
+import UserList from './views/userlist'
 
-export default function App() {
+function App() {
   return (
-    <>
-      <CssBaseline />
-      <UserList />
-    </>
+   <UserList></UserList> 
   );
 }
+
+export default App;
