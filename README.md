@@ -1,2 +1,0 @@
-# useraccounts
-Created with CodeSandbox
