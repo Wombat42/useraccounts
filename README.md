@@ -1,4 +1,5 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project requires running webpack to build. Webpack-cli mus be installed globally.
+run `npm i webpack-cli -g` before attempting a production build.
 
 ## Available Scripts
 

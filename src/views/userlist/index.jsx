@@ -1,18 +1,16 @@
-import React from "react";
-import { Card, TextField, Typography } from "@material-ui/core";
-import Table from "components/table";
+import React from 'react';
+import { Card, TextField, Typography } from '@material-ui/core';
+import Table from '../../components/table';
 
 export default function UserList() {
-  const handleRowSelection = event => {
-    console.log("yay!");
+  const handleRowSelection = (event) => {
+    console.log('yay!');
   };
 
   const tableProps = {
-    columns: ["Name", "Last Name", "Something else"],
-    rows: [["Andy", "Flot", "other dafdsta"]]
+    columns: ['Name', 'Last Name', 'Something else'],
+    rows: [['Andy', 'Flot', 'other dafdsta']],
   };
-
-  console.log("hey hey");
 
   return (
     <Card>
