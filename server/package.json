@@ -8,11 +8,7 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "node ./src/server.js",
-    "deploy": "gcloud app deploy",
-    "lint": "samples lint",
-    "pretest": "npm run lint",
-    "test": "samples test app"
+    "start": "node ./src/server.js"
   },
   "repository": {
     "type": "git",
