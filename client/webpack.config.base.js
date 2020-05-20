@@ -6,7 +6,7 @@ module.exports = {
   context: __dirname,
   entry: [
     'react-hot-loader/patch',
-    'webpack-hot-middleware/client?overlay=false&reload=true',
+    'webpack-hot-middleware/client?overlay=false&reload=true&http://localhost:8080/__webpack_hmr',
     'src/index.jsx',
   ],
   module: {
@@ -30,6 +30,7 @@ module.exports = {
   },
   externals: {
     react: 'React', // Case matters here
+    'react-dom': 'ReactDOM', // Case matters here
   },
   resolve: {
     alias: {

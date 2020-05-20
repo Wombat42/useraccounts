@@ -19,6 +19,7 @@
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieSession = require("cookie-session");
 const { getUser, getAccount } = require(path.join(__dirname, "/data"));
 
 const app = express();
@@ -52,8 +53,12 @@ function sessionManager() {
   }, 60 * 1000);
 }
 
+function getMaxSessionTime() {
+  return 60 * 1000 * 20; //twenty minute session timeout
+}
+
 function getTTL() {
-  return Date.now() + 60 * 10000;
+  return Date.now() + getMaxSessionTime();
 }
 
 function createSessionToken(name) {
@@ -72,43 +77,53 @@ function getSessionInfo(token) {
   return sessions.get(sessionID);
 }
 
+function hasValidSession(sessionToken) {
+  console.log("sessiontoken", sessionToken);
+  if (sessionToken) {
+    const session = getSessionInfo(sessionToken);
+    if (session) {
+      const { ttl } = session;
+      if (Date.now() < ttl) {
+        updateSession(sessionToken);
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 function updateSession(token) {
   const sessionID = convertToNumber(token);
   console.log(`updating session ${token}`);
   sessions.set(sessionID, { ttl: getTTL() });
 }
 
+app.use(express.static("dist"));
+
 app.get("/", (req, res) => {
   res.send("Hello from App Engine!");
 });
 
+app.use(
+  cookieSession({
+    name: "session",
+    maxAge: getMaxSessionTime(),
+    keys: ["demo"],
+  })
+);
+
 app.all("/api/*", bodyParser.json(), (req, res, next) => {
   console.log(req.method, req.url, req.body, req.get("content-type"));
-  if (req.url === "/api/session" && req.method === "POST") {
+  if (req.url === "/api/session") {
     // User is trying to login
     next();
   } else {
-    let isAuthorizedSession = false;
     const sessionToken = req.get("authorization");
-    console.log("sessiontoken", sessionToken);
-    if (sessionToken) {
-      const session = getSessionInfo(sessionToken);
-      if (session) {
-        const { ttl } = session;
-        if (Date.now() < ttl) {
-          isAuthorizedSession = true;
-          updateSession(sessionToken);
-          next();
-        } else {
-          console.log("session token has timed out");
-        }
-      } else {
-        console.log("session is gone", sessionToken);
-      }
+    if (hasValidSession(sessionToken)) {
+      next();
+      return;
     }
-    if (isAuthorizedSession === false) {
-      res.status(401).send({ error: "not authorized" });
-    }
+    res.status(401).send({ error: "not authorized" });
   }
 });
 
@@ -131,6 +146,13 @@ app.get("/api/user/:userID/account", (req, res) => {
 });
 
 app.get("/api/session", (req, res) => {
+  if (req.session) {
+    const sessionToken = req.session.id;
+    if (hasValidSession(sessionToken)) {
+      res.send(JSON.stringify({ session: sessionToken, id: 22 }));
+      return;
+    }
+  }
   res.status(401).send({ error: "not authorized" });
 });
 
@@ -139,7 +161,8 @@ app.post("/api/session", (req, res) => {
   console.log("session", user, password);
   if (user === "ash" && password === "password") {
     const sessionToken = createSessionToken(user);
-    res.send(JSON.stringify({ session: sessionToken }));
+    req.session.id = sessionToken;
+    res.send(JSON.stringify({ session: sessionToken, id: 22 }));
     return;
   }
   res.status(401).send({ error: "not authorized" });

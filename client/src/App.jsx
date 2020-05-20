@@ -1,40 +1,18 @@
 import * as React from 'react';
 import { hot } from 'react-hot-loader/root';
-import UserList from 'src/views/userlist';
-import { Router, Link } from '@reach/router';
-import Login from './components/login';
-import { Paper } from '@material-ui/core';
+import { Router } from '@reach/router';
+import {
+  AppBar,
+  IconButton,
+  Paper,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
+import Home from './views/home';
+import Login from './components/login';
 import AppContext from './context';
-
-// You can think of these components as "pages"
-// in your app.
-
-function Home() {
-  return (
-    <div>
-      <h2>Home</h2>
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h2>
-        <UserList />
-      </h2>
-    </div>
-  );
-}
-
-function Dashboard() {
-  return (
-    <div>
-      <h2>Dashboard sfdd</h2>
-    </div>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const [session, setSession] = React.useState(null);
+  const [session, setSession] = React.useState({});
   const appContext = { session, setSession };
 
   return (
@@ -58,16 +36,28 @@ function App() {
       <div className={classes.root}>
         <Paper elevation={0}>
           <Login>
-            <div>
-              <nav>
-                <Link to="/">Home</Link>{' '}
-                <Link to="/about">About</Link>{' '}
-              </nav>
-              <Router>
-                <Home path="/" />
-                <UserList path="/about" />
-              </Router>
-            </div>
+            <>
+              <AppBar position="static">
+                <Toolbar>
+                  <IconButton
+                    edge="start"
+                    className={classes.menuButton}
+                    color="inherit"
+                    aria-label="menu"
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography variant="h6" className={classes.title}>
+                    Home
+                  </Typography>
+                </Toolbar>
+              </AppBar>
+              <div>
+                <Router>
+                  <Home path="/" />
+                </Router>
+              </div>
+            </>
           </Login>
         </Paper>
       </div>
