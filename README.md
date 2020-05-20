@@ -45,3 +45,27 @@ Run `npm start` to start up the dev environment. This brings up just the client 
 server portion with is running on `http://localhost:9000`. The client server is on `http://localhost:8080`. Point your browser to
 `http://localhost:8080` to work on the client. Any code change *should* be reflected immediately. You will at times need 
 to refresh either the browser or the session.
+
+
+## Server
+A simple Express server with minimal example API implementations. It can serve up content form the `./public` folder.
+Warning: This has minimal, and some bad, security. Use it for reference and definitely do not use it in production.
+
+### API
+All API are have the word "api" in the url.
+All non-session API must have an "Authorization" header with the session ID.
+
+* GET `/api/session` - Checks for a session cookie and maps it back to a valid session object. If successful, it returns the session 
+with a 200 status. Otherwise it returns a 401 error status.
+* POST `/api/session` - Requires a payload of `{"username":<some username>, "password":<some password>}`. Returns a 200 with a session object if successful. Otherwise returns a 401 with minimal error information.
+* GET `/api/user/:userid` - Gets a user's profile information. There is only one user in the system. The call should be GET `/api/user/22` to return him. The system does not check if the current user is authorized to view the data.
+* Get `/api/user/:userid/account` - Returns the user's account information.
+
+### Building the server
+There is no build step
+
+### Running the server
+Run `npm start` from the server folder.
+
+
+
