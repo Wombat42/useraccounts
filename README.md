@@ -59,7 +59,7 @@ All non-session API must have an "Authorization" header with the session ID.
 with a 200 status. Otherwise it returns a 401 error status.
 * POST `/api/session` - Requires a payload of `{"username":<some username>, "password":<some password>}`. Returns a 200 with a session object if successful. Otherwise returns a 401 with minimal error information.
 * GET `/api/user/:userid` - Gets a user's profile information. There is only one user in the system. The call should be GET `/api/user/22` to return him. The system does not check if the current user is authorized to view the data.
-* Get `/api/user/:userid/account` - Returns the user's account information.
+* GET `/api/user/:userid/account` - Returns the user's account information.
 
 ### Building the server
 There is no build step
