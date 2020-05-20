@@ -98,7 +98,7 @@ function updateSession(token) {
   sessions.set(sessionID, { ttl: getTTL() });
 }
 
-app.use(express.static("dist"));
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   res.send("Hello from App Engine!");
