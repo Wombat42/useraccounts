@@ -11,5 +11,12 @@ module.exports = merge(baseConfig, {
     hot: true,
     historyApiFallback: true,
     port: 8080,
+    proxy: {
+      '/api/**': {
+        target: 'http://localhost:9000',
+        secure: false,
+        changeOrigin: true,
+      },
+    },
   },
 });

@@ -56,6 +56,6 @@ Table.propTypes = {
   handleRowSelection: PropTypes.func,
 };
 
-Table.defaultprops = {
+Table.defaultProps = {
   handleRowSelection: () => {},
 };

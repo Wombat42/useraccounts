@@ -16,18 +16,6 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: [
-              '@babel/plugin-transform-arrow-functions',
-              '@babel/plugin-transform-destructuring',
-              '@babel/plugin-proposal-object-rest-spread',
-              '@babel/plugin-transform-async-to-generator',
-              '@babel/plugin-transform-react-jsx',
-              '@babel/plugin-proposal-export-default-from',
-              'react-hot-loader/babel',
-            ],
-          },
         },
       },
       {
@@ -40,6 +28,9 @@ module.exports = {
       },
     ],
   },
+  externals: {
+    react: 'React', // Case matters here
+  },
   resolve: {
     alias: {
       'react-dom': '@hot-loader/react-dom',
@@ -50,7 +41,7 @@ module.exports = {
   output: {
     libraryTarget: 'umd',
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist',
+    publicPath: '/',
     filename: 'user_accounts.js',
   },
   plugins: [

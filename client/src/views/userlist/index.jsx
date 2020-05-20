@@ -1,6 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import { Card, TextField, Typography } from '@material-ui/core';
 import Table from '../../components/table';
+
+/*
+This was originally part of the project, however, requirements changed so keeping 
+it in, but not using it
+*/
 
 export default function UserList() {
   const handleRowSelection = (event) => {
